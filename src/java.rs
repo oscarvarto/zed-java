@@ -535,6 +535,24 @@ impl Extension for Java {
             _ => None,
         })
     }
+
+    fn language_server_virtual_document_configs(
+        &mut self,
+        language_server_id: &LanguageServerId,
+        _worktree: &Worktree,
+    ) -> zed::Result<Vec<zed::lsp::VirtualDocumentConfig>> {
+        // Only provide virtual document config for jdtls
+        if language_server_id.as_ref() != "jdtls" {
+            return Ok(Vec::new());
+        }
+
+        Ok(vec![zed::lsp::VirtualDocumentConfig {
+            scheme: "jdt".to_string(),
+            content_request_method: "java/classFileContents".to_string(),
+            language_name: "Java".to_string(),
+            language_id: "java".to_string(),
+        }])
+    }
 }
 
 register_extension!(Java);
