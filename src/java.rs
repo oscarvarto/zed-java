@@ -551,6 +551,8 @@ impl Extension for Java {
             content_request_method: "java/classFileContents".to_string(),
             language_name: "Java".to_string(),
             language_id: "java".to_string(),
+            // JDTLS expects TextDocumentIdentifier (just the URI)
+            param_kind: Some(zed::lsp::VirtualDocumentParamKind::Uri),
         }])
     }
 }
